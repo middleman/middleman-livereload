@@ -8,7 +8,7 @@ Middleman::Guard.add_guard do |options, livereload|
       livereload_options_hash << ", :#{k} => '#{v}'"
     end
     
-    guardfile_contents << %Q{
+    %Q{
       guard 'livereload'#{livereload_options_hash} do 
         watch(%r{^source/([^\.].*)$})
       end
