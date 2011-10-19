@@ -13,7 +13,6 @@ Middleman::Guard.add_guard do |options, livereload|
     %Q{
       guard 'livereload'#{livereload_options_hash} do 
         watch(%r{^source/([^\.].*)$})
-        watch(%r{^data/([^\.].*)$})
       end
     }
   else
