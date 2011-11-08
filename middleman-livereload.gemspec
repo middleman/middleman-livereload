@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("middleman", ["~> 2.1.0"])
   s.add_runtime_dependency('em-websocket', ['>= 0.2.0'])
   s.add_runtime_dependency('multi_json', ['~> 1.0.3'])
+  s.add_development_dependency("rake")
 end
