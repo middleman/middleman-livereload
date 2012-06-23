@@ -14,13 +14,12 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "middleman-livereload"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files         = `git ls-files -z`.split("\0")
+  s.test_files    = `git ls-files -z -- {fixtures,features}/*`.split("\0")
   s.require_paths = ["lib"]
   
-  s.add_runtime_dependency("middleman", ["~> 2.1.0"])
+  s.add_dependency("middleman-core", Middleman::LiveReload::VERSION)
+  s.add_runtime_dependency('rack-livereload')
   s.add_runtime_dependency('em-websocket', ['>= 0.2.0'])
   s.add_runtime_dependency('multi_json', ['~> 1.0'])
-  s.add_development_dependency("rake")
 end
