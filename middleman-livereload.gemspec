@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   # s.add_runtime_dependency("middleman", ["~> 2.0.6"])
-  s.add_runtime_dependency("guard-livereload", ["~> 0.3.1"])
+  s.add_runtime_dependency("guard-livereload", ["~> 1.0"])
   s.add_development_dependency("rake")
 end
