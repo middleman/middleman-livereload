@@ -14,14 +14,17 @@ module Middleman
           :apply_css_live => true,
           :grace_period => 0
         }.merge(options)
-        
-        use ::Rack::LiveReload
-        
+
         app.ready do
+          # Doesn't make sense in build
+          return if environment == :build
+
           reactor = Reactor.new(options)
           
           files.changed { |file| reactor.reload_browser(file) }
           files.deleted { |file| reactor.reload_browser(file) }
+
+          use ::Rack::LiveReload
         end
       end
       alias :included :registered
@@ -41,6 +44,7 @@ module Middleman
       end
 
       def reload_browser(paths = [])
+        paths = Array(paths)
         puts "Reloading browser: #{paths.join(' ')}"
         paths.each do |path|
           data = MultiJson.encode(['refresh', {
@@ -60,9 +64,9 @@ module Middleman
             EventMachine.start_server(options[:host], options[:port], EventMachine::WebSocket::Connection, {}) do |ws|
               ws.onopen do
                 begin
-                  puts "Browser connected."
                   ws.send "!!ver:#{options[:api_version]}"
                   @web_sockets << ws
+                  puts "Browser connected."
                 rescue
                   $stderr.puts $!
                   $stderr.puts $!.backtrace
