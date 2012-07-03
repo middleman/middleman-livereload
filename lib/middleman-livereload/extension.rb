@@ -17,7 +17,7 @@ module Middleman
 
         app.ready do
           # Doesn't make sense in build
-          if environment == :build
+          if environment != :build
             reactor = Reactor.new(options)
 
             files.changed { |file| reactor.reload_browser(file) }
