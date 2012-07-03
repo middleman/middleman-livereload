@@ -17,14 +17,14 @@ module Middleman
 
         app.ready do
           # Doesn't make sense in build
-          return if environment == :build
+          if environment == :build
+            reactor = Reactor.new(options)
 
-          reactor = Reactor.new(options)
-          
-          files.changed { |file| reactor.reload_browser(file) }
-          files.deleted { |file| reactor.reload_browser(file) }
+            files.changed { |file| reactor.reload_browser(file) }
+            files.deleted { |file| reactor.reload_browser(file) }
 
-          use ::Rack::LiveReload
+            use ::Rack::LiveReload
+          end
         end
       end
       alias :included :registered
