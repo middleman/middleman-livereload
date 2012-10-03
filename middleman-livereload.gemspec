@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Thomas Reynolds"]
   s.email       = ["me@tdreyno.com"]
-  s.homepage    = "https://github.com/tdreyno/middleman-livereload"
+  s.homepage    = "https://github.com/middleman/middleman-livereload"
   s.summary     = %q{Adds LiveReload to Middleman}
   s.description = %q{Adds LiveReload to Middleman}
 
