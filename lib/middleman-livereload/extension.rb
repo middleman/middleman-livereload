@@ -18,12 +18,28 @@ module Middleman
         app.ready do
           # Doesn't make sense in build
           if environment != :build
-            reactor = Reactor.new(options)
+            reactor = Reactor.new(options, self)
 
-            files.changed { |file| reactor.reload_browser(file) }
-            files.deleted { |file| reactor.reload_browser(file) }
+            files.changed do |file|
+              sitemap.ensure_resource_list_updated!
+              
+              begin
+                file_url = sitemap.file_to_path(file)
+                file_resource = sitemap.find_resource_by_path(file_url)
+                reload_path = file_resource.destination_path
+              rescue
+                reload_path = "#{Dir.pwd}/#{file}"
+              end
+              
+              reactor.reload_browser(reload_path)
+            end
+            
+            files.deleted do |file|
+              sitemap.ensure_resource_list_updated!
+              reactor.reload_browser("#{Dir.pwd}/#{file}")
+            end
 
-            use ::Rack::LiveReload
+            use ::Rack::LiveReload, :port => options[:port].to_i, :host => options[:host]
           end
         end
       end
@@ -31,9 +47,11 @@ module Middleman
     end
 
     class Reactor
-      attr_reader :thread, :web_sockets
-
-      def initialize(options)
+      attr_reader :thread, :web_sockets, :app
+      delegate :logger, :to => :app
+      
+      def initialize(options, app)
+        @app = app
         @web_sockets = []
         @options     = options
         @thread      = start_threaded_reactor(options)
@@ -45,14 +63,14 @@ module Middleman
 
       def reload_browser(paths = [])
         paths = Array(paths)
-        puts "Reloading browser: #{paths.join(' ')}"
+        logger.info "== LiveReloading path: #{paths.join(' ')}"
         paths.each do |path|
           data = MultiJson.encode(['refresh', {
-            :path           => "#{Dir.pwd}/#{path}",
+            :path           => path,
             :apply_js_live  => @options[:apply_js_live],
             :apply_css_live => @options[:apply_css_live]
           }])
-          # UI.debug data
+          
           @web_sockets.each { |ws| ws.send(data) }
         end
       end
@@ -60,13 +78,13 @@ module Middleman
       def start_threaded_reactor(options)
         Thread.new do
           EventMachine.run do
-            puts "LiveReload #{options[:api_version]} is waiting for a browser to connect."
+            logger.info "== LiveReload is waiting for a browser to connect"
             EventMachine.start_server(options[:host], options[:port], EventMachine::WebSocket::Connection, {}) do |ws|
               ws.onopen do
                 begin
                   ws.send "!!ver:#{options[:api_version]}"
                   @web_sockets << ws
-                  puts "Browser connected."
+                  logger.debug "== LiveReload browser connected"
                 rescue
                   $stderr.puts $!
                   $stderr.puts $!.backtrace
@@ -74,12 +92,12 @@ module Middleman
               end
 
               ws.onmessage do |msg|
-                puts "Browser URL: #{msg}"
+                logger.debug "LiveReload Browser URL: #{msg}"
               end
 
               ws.onclose do
                 @web_sockets.delete ws
-                puts "Browser disconnected."
+                logger.debug "== LiveReload browser disconnected"
               end
             end
           end
