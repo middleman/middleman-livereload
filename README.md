@@ -12,8 +12,12 @@ middleman init MY_PROJECT
 ```
 
 If you already have a Middleman project:
-Add `middleman-livereload` to your `Gemfile`, and open your `config.rb` and add:
+Add `middleman-livereload` to your `Gemfile`
+```
+gem "middleman-livereload", "~>3.0.1"
+```
 
+Then open your `config.rb` and add:
 ```
 activate :livereload
 ```
