@@ -5,6 +5,8 @@ require 'multi_json'
 module Middleman
   module LiveReload
     class << self
+      @@reactor = nil
+
       def registered(app, options={})
         options = {
           :api_version => '1.6',
@@ -18,12 +20,16 @@ module Middleman
         app.ready do
           # Doesn't make sense in build
           if environment != :build
-            reactor = Reactor.new(options, self)
+            if @@reactor
+              @@reactor.app = self
+            else
+              @@reactor = Reactor.new(options, self)
+            end
 
             files.changed do |file|
               sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
-              
+
               begin
                 file_url = sitemap.file_to_path(file)
                 file_resource = sitemap.find_resource_by_path(file_url)
@@ -31,14 +37,13 @@ module Middleman
               rescue
                 reload_path = "#{Dir.pwd}/#{file}"
               end
-              
-              reactor.reload_browser(reload_path)
+              @@reactor.reload_browser(reload_path)
             end
-            
+
             files.deleted do |file|
               sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
-              reactor.reload_browser("#{Dir.pwd}/#{file}")
+              @@reactor.reload_browser("#{Dir.pwd}/#{file}")
             end
 
             use ::Rack::LiveReload, :port => options[:port].to_i, :host => options[:host]
@@ -50,13 +55,20 @@ module Middleman
 
     class Reactor
       attr_reader :thread, :web_sockets, :app
-      delegate :logger, :to => :app
-      
+
       def initialize(options, app)
         @app = app
         @web_sockets = []
         @options     = options
         @thread      = start_threaded_reactor(options)
+      end
+
+      def app= app
+        Thread.exclusive { @app = app }
+      end
+
+      def logger
+        Thread.exclusive { @app.logger }
       end
 
       def stop
@@ -72,7 +84,7 @@ module Middleman
             :apply_js_live  => @options[:apply_js_live],
             :apply_css_live => @options[:apply_css_live]
           }])
-          
+
           @web_sockets.each { |ws| ws.send(data) }
         end
       end
