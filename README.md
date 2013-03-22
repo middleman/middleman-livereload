@@ -26,7 +26,7 @@ activate :livereload
 
 The extension supports a number of options that can be given to the `activate` statement. E.g.:
 ```
-activate :livereload, :apply_js_live => false
+activate :livereload, :apply_js_live => false, :grace_period => 0.5
 ```
 
 ## :api_version
@@ -40,6 +40,10 @@ Livereload's listener host/port, these options get passed to ::Rack::LiveReload 
 ## :apply_js_live and :apply_css_live
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
+
+## :grace_period
+
+A delay middleman-livereload should wait before reacting on file change / deletion notification (sec). Default is 0.
 
 # Community
 
