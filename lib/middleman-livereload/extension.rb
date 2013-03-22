@@ -21,6 +21,7 @@ module Middleman
             reactor = Reactor.new(options, self)
 
             files.changed do |file|
+              sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
               
               begin
@@ -35,6 +36,7 @@ module Middleman
             end
             
             files.deleted do |file|
+              sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
               reactor.reload_browser("#{Dir.pwd}/#{file}")
             end
