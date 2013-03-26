@@ -27,6 +27,8 @@ module Middleman
             end
 
             files.changed do |file|
+              next if ignore_manager.ignored?(file)
+
               sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
 
@@ -41,6 +43,8 @@ module Middleman
             end
 
             files.deleted do |file|
+              next if ignore_manager.ignored?(file)
+
               sleep options[:grace_period]
               sitemap.ensure_resource_list_updated!
               @@reactor.reload_browser("#{Dir.pwd}/#{file}")
