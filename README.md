@@ -1,64 +1,81 @@
-# middleman-livereload
+# Middleman-Livereload
 
-middleman-livereload is an extension for the [Middleman](http://middlemanapp.com) static site generator that adds livereloading functionality.
+middleman-livereload is an extension for the [Middleman] static site generator that adds livereloading functionality.
 
-# Install
-If you're just getting started, install the `middleman` and `middleman-livereload` gems and generate a new project:
+## Installation
+
+If you're just getting started, install the `middleman` gem and generate a new project:
 
 ```
 gem install middleman
-gem install middleman-livereload
 middleman init MY_PROJECT
 ```
 
-If you already have a Middleman project:
-Add `middleman-livereload` to your `Gemfile`
-```
-gem "middleman-livereload", "~>3.0.1"
-```
+If you already have a Middleman project: Add `gem "middleman-livereload", "~> 3.0.1"` to your `Gemfile` and run `bundle install`
 
-Then open your `config.rb` and add:
+## Configuration
+
 ```
 activate :livereload
 ```
 
-# Configuration
+The extension supports a number of options that can be given to the `activate` statement. Eg:
 
-The extension supports a number of options that can be given to the `activate` statement. E.g.:
 ```
 activate :livereload, :apply_js_live => false, :grace_period => 0.5
 ```
 
-## :api_version
+#### `:api_version`
 
 Livereload API version, default `'1.6'`.
 
-## :host and :port
+#### `:host` and `:port`
 
 Livereload's listener host/port, these options get passed to ::Rack::LiveReload  middleware. Defaults:`'0.0.0.0'` and `'35729'`.
 
-## :apply_js_live and :apply_css_live
+#### `:apply_js_live` and `:apply_css_live`
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
 
-## :grace_period
+#### `:grace_period`
 
 A delay middleman-livereload should wait before reacting on file change / deletion notification (sec). Default is 0.
 
-# Community
+## Build & Dependency Status
 
-The official community forum is available at:
+[![Gem Version](https://badge.fury.io/rb/middleman-minify-html.png)][gem]
+[![Build Status](https://travis-ci.org/middleman/middleman-minify-html.png)][travis]
+[![Dependency Status](https://gemnasium.com/middleman/middleman-minify-html.png?travis)][gemnasium]
+[![Code Quality](https://codeclimate.com/github/middleman/middleman-minify-html.png)][codeclimate]
 
-  http://forum.middlemanapp.com/
+## Community
 
-# Bug Reports
+The official community forum is available at: http://forum.middlemanapp.com
 
-GitHub Issues are used for managing bug reports and feature requests. If you run into issues, please search the issues and submit new problems:
+## Bug Reports
 
-https://github.com/middleman/middleman-livereload/issues
+Github Issues are used for managing bug reports and feature requests. If you run into issues, please search the issues and submit new problems: https://github.com/middleman/middleman-minify-html/issues
 
-The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner. Even better, if you know Ruby, you can submit Pull Requests containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
+The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner. Even better, if you know Ruby, you can submit [Pull Requests](https://help.github.com/articles/using-pull-requests) containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
 
-# Donate
+## How to Run Cucumber Tests
 
-[![Click here to lend your support to Middleman](https://www.pledgie.com/campaigns/15807.png)](http://www.pledgie.com/campaigns/15807)
+1. Checkout Repository: `git clone https://github.com/middleman/middleman-minify-html.git`
+2. Install Bundler: `gem install bundler`
+3. Run `bundle install` inside the project root to install the gem dependencies.
+4. Run test cases: `bundle exec rake test`
+
+## Donate
+
+[Click here to lend your support to Middleman](https://spacebox.io/s/4dXbHBorC3)
+
+## License
+
+Copyright (c) 2010-2013 Thomas Reynolds. MIT Licensed, see [LICENSE] for details.
+
+[middleman]: http://middlemanapp.com
+[gem]: https://rubygems.org/gems/middleman-minify-html
+[travis]: http://travis-ci.org/middleman/middleman-minify-html
+[gemnasium]: https://gemnasium.com/middleman/middleman-minify-html
+[codeclimate]: https://codeclimate.com/github/middleman/middleman-minify-html
+[LICENSE]: https://github.com/middleman/middleman-minify-html/blob/master/LICENSE.md
