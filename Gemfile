@@ -14,5 +14,5 @@ gem "yard", "~> 0.8.0"
 
 gem "cucumber", "~> 1.2.0"
 gem "fivemat"
-gem "aruba", "~> 0.4.11"
+gem "aruba", "~> 0.5"
 gem "rspec", "~> 2.7"
