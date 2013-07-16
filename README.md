@@ -11,7 +11,7 @@ gem install middleman
 middleman init MY_PROJECT
 ```
 
-If you already have a Middleman project: Add `gem "middleman-livereload", "~> 3.0.1"` to your `Gemfile` and run `bundle install`
+If you already have a Middleman project: Add `gem "middleman-livereload", "~> 3.1.0"` to your `Gemfile` and run `bundle install`
 
 ## Configuration
 
