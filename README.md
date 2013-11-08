@@ -41,6 +41,10 @@ Whether live reload should attempt to reload javascript / css 'in-place', withou
 
 A delay middleman-livereload should wait before reacting on file change / deletion notification (sec). Default is 0.
 
+#### `:no_swf`
+
+Disable Flash polyfil for browsers that support native WebSockets.
+
 ## Build & Dependency Status
 
 [![Gem Version](https://badge.fury.io/rb/middleman-livereload.png)][gem]

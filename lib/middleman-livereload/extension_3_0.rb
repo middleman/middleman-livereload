@@ -13,7 +13,8 @@ module Middleman
           :port => '35729',
           :apply_js_live => true,
           :apply_css_live => true,
-          :grace_period => 0
+          :grace_period => 0,
+          :no_swf => false
         }.merge(options)
 
         app.ready do
@@ -49,7 +50,7 @@ module Middleman
               @@reactor.reload_browser("#{Dir.pwd}/#{file}")
             end
 
-            use ::Rack::LiveReload, :port => options[:port].to_i, :host => options[:host]
+            use ::Rack::LiveReload, :port => options[:port].to_i, :host => options[:host], :no_swf => options[:no_swf]
           end
         end
       end

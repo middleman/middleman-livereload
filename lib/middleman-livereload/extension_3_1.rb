@@ -8,6 +8,7 @@ module Middleman
     option :apply_js_live, true, 'Apply JS changes live, without reloading'
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
     option :grace_period, 0, 'Time (in seconds) to wait before reloading'
+    option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -20,6 +21,7 @@ module Middleman
       grace_period = options.grace_period
       port = options.port.to_i
       host = options.host
+      no_swf = options.no_swf
       options_hash = options.to_h
 
       app.ready do
@@ -56,7 +58,7 @@ module Middleman
           @reactor.reload_browser("#{Dir.pwd}/#{file}")
         end
 
-        use ::Rack::LiveReload, :port => port, :host => host
+        use ::Rack::LiveReload, :port => port, :host => host, :no_swf => no_swf
       end
     end
   end
