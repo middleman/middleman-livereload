@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-git "git://github.com/middleman/middleman.git", :branch => "master" do
+git "git://github.com/middleman/middleman.git", :branch => "v3-stable" do
   # gem "middleman"
   gem "middleman-core"
 end
