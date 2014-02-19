@@ -13,8 +13,7 @@ module Middleman
     def initialize(app, options_hash={}, &block)
       super
 
-      # Doesn't make sense in build
-      return if app.environment == :build
+      return if app.environment != :development
 
       @reactor = nil
 
