@@ -1,6 +1,3 @@
-require 'rack/livereload'
-require 'middleman-livereload/reactor'
-
 module Middleman
   class LiveReloadExtension < Extension
     option :host, '0.0.0.0', 'Host to bind LiveReload API server to'
@@ -11,9 +8,11 @@ module Middleman
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
 
     def initialize(app, options_hash={}, &block)
+      return unless app.environment != :development
       super
 
-      return if app.environment != :development
+      require 'rack/livereload'
+      require 'middleman-livereload/reactor'
 
       @reactor = nil
 
