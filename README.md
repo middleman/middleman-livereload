@@ -13,7 +13,7 @@ middleman init MY_PROJECT
 
 If you already have a Middleman project: Add `gem "middleman-livereload", "~> 3.1.0"` to your `Gemfile` and run `bundle install`
 
-####Windows users: 
+####Windows users:
 You currently need to add `gem "em-websocket", github: "igrigorik/em-websocket"` to your `Gemfile` and run `bundle install`
 Also be sure to specify the correct hostname `activate :livereload, :host => 'localhost'`
 
@@ -26,7 +26,7 @@ activate :livereload
 The extension supports a number of options that can be given to the `activate` statement. Eg:
 
 ```
-activate :livereload, :apply_js_live => false, :grace_period => 0.5
+activate :livereload, :apply_js_live => false
 ```
 
 #### `:api_version`
@@ -40,10 +40,6 @@ Livereload's listener host/port, these options get passed to ::Rack::LiveReload 
 #### `:apply_js_live` and `:apply_css_live`
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
-
-#### `:grace_period`
-
-A delay middleman-livereload should wait before reacting on file change / deletion notification (sec). Default is 0.
 
 #### `:no_swf`
 
