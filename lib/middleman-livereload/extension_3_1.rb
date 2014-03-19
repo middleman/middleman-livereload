@@ -54,7 +54,9 @@ module Middleman
           @reactor.reload_browser("#{Dir.pwd}/#{file}")
         end
 
-        use ::Rack::LiveReload, :port => port, :host => host, :no_swf => no_swf
+        # Use the vendored livereload.js source rather than trying to get it from Middleman
+        # https://github.com/johnbintz/rack-livereload#which-livereload-script-does-it-use
+        use ::Rack::LiveReload, :port => port, :host => host, :no_swf => no_swf, :source => :vendored
       end
     end
   end
