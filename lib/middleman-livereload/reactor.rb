@@ -1,5 +1,5 @@
 require 'em-websocket'
-require 'multi_json'
+require 'json'
 
 module Middleman
   module LiveReload
@@ -29,7 +29,7 @@ module Middleman
         paths = Array(paths)
         logger.info "== LiveReloading path: #{paths.join(' ')}"
         paths.each do |path|
-          data = MultiJson.encode(['refresh', {
+          data = JSON.dump(['refresh', {
             :path           => path,
             :apply_js_live  => @options[:apply_js_live],
             :apply_css_live => @options[:apply_css_live]
@@ -50,8 +50,8 @@ module Middleman
                   @web_sockets << ws
                   logger.debug "== LiveReload browser connected"
                 rescue
-                  $stderr.puts $!
-                  $stderr.puts $!.backtrace
+                  logger.error $!
+                  logger.error $!.backtrace
                 end
               end
 
