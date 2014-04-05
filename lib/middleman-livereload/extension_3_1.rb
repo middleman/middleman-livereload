@@ -3,7 +3,7 @@ require 'middleman-livereload/reactor'
 
 module Middleman
   class LiveReloadExtension < Extension
-    option :host, '0.0.0.0', 'Host to bind LiveReload API server to'
+    option :host, 'localhost', 'Host to bind LiveReload API server to'
     option :port, '35729', 'Port to bind the LiveReload API server to'
     option :apply_js_live, true, 'Apply JS changes live, without reloading'
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
@@ -17,7 +17,7 @@ module Middleman
       @reactor = nil
 
       port = options.port.to_i
-      host = options.host
+      host = Socket.ip_address_list.find(&:ipv4_private?).ip_address
       no_swf = options.no_swf
       options_hash = options.to_h
 
