@@ -3,11 +3,11 @@ require 'middleman-livereload/reactor'
 
 module Middleman
   class LiveReloadExtension < Extension
-    option :host, 'localhost', 'Host to bind LiveReload API server to'
     option :port, '35729', 'Port to bind the LiveReload API server to'
     option :apply_js_live, true, 'Apply JS changes live, without reloading'
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
+    option :host, Socket.ip_address_list.find(&:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -17,7 +17,7 @@ module Middleman
       @reactor = nil
 
       port = options.port.to_i
-      host = Socket.ip_address_list.find(&:ipv4_private?).ip_address
+      host = options.host
       no_swf = options.no_swf
       options_hash = options.to_h
 
@@ -27,6 +27,8 @@ module Middleman
         else
           @reactor = ::Middleman::LiveReload::Reactor.new(options_hash, self)
         end
+
+        logger.info "== Livereload is connecting to http://#{host}:4567 (localhost)"
 
         files.changed do |file|
           next if files.send(:ignored?, file)
