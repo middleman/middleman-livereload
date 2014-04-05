@@ -15,7 +15,6 @@ If you already have a Middleman project: Add `gem "middleman-livereload", "~> 3.
 
 #### Windows users:
 You currently need to add `gem "em-websocket", github: "igrigorik/em-websocket"` to your `Gemfile` and run `bundle install`
-Also be sure to specify the correct hostname `activate :livereload, :host => 'localhost'`
 
 ## Configuration
 
