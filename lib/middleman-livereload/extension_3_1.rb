@@ -28,8 +28,6 @@ module Middleman
           @reactor = ::Middleman::LiveReload::Reactor.new(options_hash, self)
         end
 
-        logger.info "== Livereload is connecting to http://#{host}:4567 (localhost)"
-
         files.changed do |file|
           next if files.send(:ignored?, file)
 
