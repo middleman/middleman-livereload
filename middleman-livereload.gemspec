@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name = "middleman-livereload"
   s.version = Middleman::LiveReload::VERSION
   s.platform = Gem::Platform::RUBY
-  s.authors = ["Thomas Reynolds"]
-  s.email = ["me@tdreyno.com"]
+  s.authors     = ["Thomas Reynolds", "Ben Hollis", "Karl Freeman"]
+  s.email       = ["me@tdreyno.com", "ben@benhollis.net", "karlfreeman@gmail.com"]
   s.homepage = "https://github.com/middleman/middleman-livereload"
   s.summary = %q{LiveReload support for Middleman}
   s.description = %q{LiveReload support for Middleman}
