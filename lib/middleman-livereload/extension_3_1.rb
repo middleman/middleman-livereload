@@ -7,7 +7,7 @@ module Middleman
     option :apply_js_live, true, 'Apply JS changes live, without reloading'
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
-    option :host, Socket.ip_address_list.find(&:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
+    option :host, Socket.ip_address_list.find(->{ Addrinfo.ip 'localhost' }, &:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
 
     def initialize(app, options_hash={}, &block)
       super
