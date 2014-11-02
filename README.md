@@ -33,6 +33,8 @@ Livereload's listener host/port, these options get passed to ::Rack::LiveReload 
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
 
+:warning: It does *not* work with `@import`'ed CSS files or `require`'d JS files (because of LiveReload not providing enough information regarding dependencies). On those kind of files, a full page reload will be triggered.
+
 #### `:no_swf`
 
 Disable Flash polyfil for browsers that support native WebSockets.
