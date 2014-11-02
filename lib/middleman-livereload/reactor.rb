@@ -42,7 +42,7 @@ module Middleman
       def start_threaded_reactor(options)
         Thread.new do
           EventMachine.run do
-            logger.info "== LiveReload accepting connections from http://#{options[:host]}:4567 (localhost)"
+            logger.info "== LiveReload accepting connections from http://#{options[:host]}:#{options[:port]}"
             EventMachine.start_server(options[:host], options[:port], EventMachine::WebSocket::Connection, {}) do |ws|
               ws.onopen do
                 begin
