@@ -12,7 +12,11 @@ module Middleman
     def initialize(app, options_hash={}, &block)
       super
 
-      return unless app.environment == :development
+      if app.respond_to?(:server?)
+        return unless app.server?
+      else
+        return unless app.environment == :development
+      end
 
       @reactor = nil
 
