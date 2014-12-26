@@ -33,7 +33,7 @@ module Middleman
         end
 
         files.changed do |file|
-          next if files.send(:ignored?, file)
+          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
 
           logger.debug "LiveReload: File changed - #{file}"
 
@@ -51,7 +51,7 @@ module Middleman
         end
 
         files.deleted do |file|
-          next if files.send(:ignored?, file)
+          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
 
           logger.debug "LiveReload: File deleted - #{file}"
 
