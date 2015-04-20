@@ -8,6 +8,7 @@ module Middleman
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
     option :host, Socket.ip_address_list.find(->{ Addrinfo.ip 'localhost' }, &:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
+    option :ignore, [], 'Array of patterns for paths that must be ignored'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -23,6 +24,7 @@ module Middleman
       port = options.port.to_i
       host = options.host
       no_swf = options.no_swf
+      ignore = options.ignore
       options_hash = options.to_h
 
       app.ready do
@@ -60,7 +62,7 @@ module Middleman
 
         # Use the vendored livereload.js source rather than trying to get it from Middleman
         # https://github.com/johnbintz/rack-livereload#which-livereload-script-does-it-use
-        use ::Rack::LiveReload, :port => port, :host => host, :no_swf => no_swf, :source => :vendored
+        use ::Rack::LiveReload, port: port, host: host, no_swf: no_swf, source: :vendored, ignore: ignore
       end
     end
   end
