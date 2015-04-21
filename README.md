@@ -22,7 +22,7 @@ activate :livereload
 The extension supports a number of options that can be given to the `activate` statement. Eg:
 
 ```
-activate :livereload, :apply_js_live => false
+activate :livereload, apply_js_live: false
 ```
 
 #### `:host` and `:port`
@@ -38,6 +38,10 @@ Whether live reload should attempt to reload javascript / css 'in-place', withou
 #### `:no_swf`
 
 Disable Flash polyfil for browsers that support native WebSockets.
+
+#### `:ignore`
+
+Array of patterns for paths that must be ignored. These files will not be injected with the LiveReload script.
 
 ## Build & Dependency Status
 
