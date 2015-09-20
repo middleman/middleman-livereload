@@ -9,6 +9,7 @@ module Middleman
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
     option :host, Socket.ip_address_list.find(->{ Addrinfo.ip 'localhost' }, &:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
     option :ignore, [], 'Array of patterns for paths that must be ignored'
+    option :bundle_file_css, 'stylesheets/application.css', 'File to load when a CSS partial was modified'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -25,6 +26,7 @@ module Middleman
       host = options.host
       no_swf = options.no_swf
       ignore = options.ignore
+      bundle_file_css = options.bundle_file_css
       options_hash = options.to_h
 
       app.ready do
@@ -47,6 +49,14 @@ module Middleman
             if file_resource
               reload_path = file_resource.url
             end
+
+            unless file_resource
+              if /_.*\.css/.match(file_url) and not bundle_file_css.nil?
+                logger.info("CSS partial, reloading #{bundle_file_css}")
+                reload_path = bundle_file_css
+              end
+            end
+
           end
 
           @reactor.reload_browser(reload_path)
