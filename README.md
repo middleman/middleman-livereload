@@ -29,6 +29,10 @@ activate :livereload, apply_js_live: false
 
 Livereload's listener host/port, these options get passed to ::Rack::LiveReload  middleware. Defaults:`'0.0.0.0'` and `'35729'`.
 
+#### `:js_host` and `:js_port`
+
+Similar to the `:host` and `:port` options, but allow you to specify a different host and port at the frontend Javascript level than at the backend EventMachine level. Useful when running behind a proxy or on a Docker VM. Defaults to `:host` and `:port`.
+
 #### `:apply_js_live` and `:apply_css_live`
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
