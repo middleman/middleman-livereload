@@ -9,9 +9,10 @@ module Middleman
     option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
     option :host, Socket.ip_address_list.find(->{ Addrinfo.ip 'localhost' }, &:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
     option :ignore, [], 'Array of patterns for paths that must be ignored'
-    option :bundle_file_css, 'stylesheets/application.css', 'File to load when a CSS partial was modified'
     option :js_port, nil, 'Port to connect the LiveReload Javascript to (if different than :port)'
     option :js_host, nil, 'Host to connect LiveReload Javascript to (if different than :host)'
+    option :livereload_css_target, 'stylesheets/all.css', 'CSS file to load when a @imported CSS partials are modified'
+    option :livereload_css_pattern, Regexp.new('_.*\.css'), 'Regexp matching filenames that trigger live reloading target'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -30,8 +31,9 @@ module Middleman
       js_host = options.js_host || host
       no_swf = options.no_swf
       ignore = options.ignore
-      bundle_file_css = options.bundle_file_css
       options_hash = options.to_h
+      livereload_css_target = options.livereload_css_target
+      livereload_css_pattern = options.livereload_css_pattern
 
       app.ready do
         if @reactor
@@ -53,14 +55,13 @@ module Middleman
             if file_resource
               reload_path = file_resource.url
             end
+          end
 
-            unless file_resource
-              if /_.*\.css/.match(file_url) and not bundle_file_css.nil?
-                logger.info("CSS partial, reloading #{bundle_file_css}")
-                reload_path = bundle_file_css
-              end
-            end
-
+          # handle imported partials
+          # load target file instead of triggering full page refresh
+          if livereload_css_pattern.match(file) and not livereload_css_target.nil?
+            logger.info("LiveReload: CSS import changed, reloading target")
+            reload_path = livereload_css_target
           end
 
           @reactor.reload_browser(reload_path)
