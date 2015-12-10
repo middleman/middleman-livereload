@@ -47,11 +47,14 @@ Disable Flash polyfil for browsers that support native WebSockets.
 
 Array of patterns for paths that must be ignored. These files will not be injected with the LiveReload script.
 
-#### `:bundle_file_css`
+#### `:livereload_css_target`
 
-CSS bundle file to reload when detecting partial file was modified. By default will reload `stylesheets/application.css` unless `:bundle_file_css` option is set.
+CSS file to reload when detecting @imported partial was modified. Default `stylesheets/all.css`).  
+To opt out set `livereload_css_target: nil`.
 
-To opt out set `bundle_file_css: nil`.
+#### `:livereload_css_pattern`
+
+Regexp matching filenames that should trigger reload of :livereload_css_target when changed. Default: `Regexp.new('_.*\.css')`.
 
 
 ## Build & Dependency Status
