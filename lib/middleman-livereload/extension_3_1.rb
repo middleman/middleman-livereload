@@ -59,7 +59,7 @@ module Middleman
 
           # handle imported partials
           # load target file instead of triggering full page refresh
-          if livereload_css_pattern.match(file) and not livereload_css_target.nil?
+          if livereload_css_pattern.match(file.to_s) and not livereload_css_target.nil?
             logger.info("LiveReload: CSS import changed, reloading target")
             reload_path = livereload_css_target
           end
