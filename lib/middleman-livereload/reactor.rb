@@ -11,14 +11,15 @@ module Middleman
         @web_sockets = []
         @options     = options
         @thread      = start_threaded_reactor(options)
+        @mutex       = Thread::Mutex.new
       end
 
       def app= app
-        Thread.exclusive { @app = app }
+        @mutex.synchronize { @app = app }
       end
 
       def logger
-        Thread.exclusive { @app.logger }
+        @mutex.synchronize { @app.logger }
       end
 
       def stop
