@@ -15,8 +15,8 @@ Gem::Specification.new do |s|
   s.files = `git ls-files -z`.split("\0")
   s.test_files = `git ls-files -z -- {fixtures,features}/*`.split("\0")
   s.require_paths = ["lib"]
-  s.required_ruby_version = '>= 1.9.3'
-  s.add_dependency("middleman-core", [">= 3.3"])
+  s.required_ruby_version = '>= 2.1.0'
+  s.add_dependency("middleman-core", ["~> 4.1.1"])
   s.add_runtime_dependency('rack-livereload', ['~> 0.3.15'])
   s.add_runtime_dependency('em-websocket', ['~> 0.5.1'])
 end

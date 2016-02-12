@@ -6,7 +6,7 @@ module Middleman
     option :port, '35729', 'Port to bind the LiveReload API server to listen to'
     option :apply_js_live, true, 'Apply JS changes live, without reloading'
     option :apply_css_live, true, 'Apply CSS changes live, without reloading'
-    option :no_swf, false, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
+    option :no_swf, true, 'Disable Flash WebSocket polyfill for browsers that support native WebSockets'
     option :host, Socket.ip_address_list.find(->{ Addrinfo.ip 'localhost' }, &:ipv4_private?).ip_address, 'Host to bind LiveReload API server to'
     option :ignore, [], 'Array of patterns for paths that must be ignored'
     option :js_port, nil, 'Port to connect the LiveReload Javascript to (if different than :port)'
@@ -43,7 +43,7 @@ module Middleman
         end
 
         files.changed do |file|
-          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          next if ignore.any? { |i| file.to_s.match(i) }
 
           logger.debug "LiveReload: File changed - #{file}"
 
@@ -68,7 +68,7 @@ module Middleman
         end
 
         files.deleted do |file|
-          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          next if files.respond_to?(:ignore?) && files.send(:ignore?, file)
 
           logger.debug "LiveReload: File deleted - #{file}"
 

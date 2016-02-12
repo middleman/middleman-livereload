@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "middleman", github: "middleman/middleman", branch: "master"
+gem "middleman", "~> 4.1.1"
 
 # Specify your gem's dependencies in middleman-blog.gemspec
 gemspec
