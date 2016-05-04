@@ -35,6 +35,8 @@ module Middleman
       livereload_css_target = options.livereload_css_target
       livereload_css_pattern = options.livereload_css_pattern
 
+      extension = self
+
       app.ready do
         if @reactor
           @reactor.app = self
@@ -42,8 +44,13 @@ module Middleman
           @reactor = ::Middleman::LiveReload::Reactor.new(options_hash, self)
         end
 
+        ignored = lambda do |file|
+          return true if files.respond_to?(:ignored) && files.send(:ignored?, file)
+          extension.options.ignore.any? { |i| file.to_s.match(i) }
+        end
+
         files.changed do |file|
-          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          next if ignored.call(file)
 
           logger.debug "LiveReload: File changed - #{file}"
 
@@ -68,7 +75,7 @@ module Middleman
         end
 
         files.deleted do |file|
-          next if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          next if ignored.call(file)
 
           logger.debug "LiveReload: File deleted - #{file}"
 
