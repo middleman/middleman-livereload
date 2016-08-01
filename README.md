@@ -47,6 +47,8 @@ Disable Flash polyfil for browsers that support native WebSockets.
 
 Array of patterns for paths that must be ignored. These files will not be injected with the LiveReload script.
 
+`String#match` is used for ignoring, so you can use any valid Ruby regular expression in this array.
+
 #### `:livereload_css_target`
 
 CSS file to reload when detecting @imported partial was modified. Default `stylesheets/all.css`).  
