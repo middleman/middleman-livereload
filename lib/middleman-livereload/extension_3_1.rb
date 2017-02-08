@@ -45,8 +45,8 @@ module Middleman
         end
 
         ignored = lambda do |file|
-          return true if files.respond_to?(:ignored) && files.send(:ignored?, file)
-          extension.options.ignore.any? { |i| file.to_s.match(i) }
+          return true if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          ignore.any? { |i| file.to_s.match(i) }
         end
 
         files.changed do |file|
