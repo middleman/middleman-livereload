@@ -58,6 +58,10 @@ To opt out set `livereload_css_target: nil`.
 
 Regexp matching filenames that should trigger reload of :livereload_css_target when changed. Default: `Regexp.new('_.*\.css')`.
 
+#### `:wss_certificate` and `:wss_private_key`
+
+Support secure sockets (WSS) by passing TLS certificate & private key, for
+example if you're using `middleman server --https` in development.
 
 ## Build & Dependency Status
 

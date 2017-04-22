@@ -13,6 +13,8 @@ module Middleman
     option :js_host, nil, 'Host to connect LiveReload Javascript to (if different than :host)'
     option :livereload_css_target, 'stylesheets/all.css', 'CSS file to load when a @imported CSS partials are modified'
     option :livereload_css_pattern, Regexp.new('_.*\.css'), 'Regexp matching filenames that trigger live reloading target'
+    option :wss_certificate, nil, 'Path to an X.509 certificate to use for the websocket server'
+    option :wss_private_key, nil, 'Path to an RSA private key for the websocket certificate'
 
     def initialize(app, options_hash={}, &block)
       super

@@ -1,3 +1,8 @@
+(unreleased)
+===
+
+* Support secure sockets (WSS) with options for TLS certificate & private key.
+
 3.3.0
 ===
 
