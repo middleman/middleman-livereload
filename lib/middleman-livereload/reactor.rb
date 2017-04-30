@@ -1,5 +1,6 @@
 require 'em-websocket'
 require 'json'
+require 'middleman-livereload/wss'
 
 module Middleman
   module LiveReload
@@ -41,10 +42,11 @@ module Middleman
       end
 
       def start_threaded_reactor(options)
+        wss = Wss.new(@options[:wss_certificate], @options[:wss_private_key])
         Thread.new do
           EventMachine.run do
-            logger.info "== LiveReload accepting connections from ws://#{options[:host]}:#{options[:port]}"
-            EventMachine.start_server(options[:host], options[:port], EventMachine::WebSocket::Connection, {}) do |ws|
+            logger.info "== LiveReload accepting connections from #{wss.scheme}://#{options[:host]}:#{options[:port]}"
+            EventMachine.start_server(options[:host], options[:port], EventMachine::WebSocket::Connection, wss.to_options) do |ws|
               ws.onopen do
                 begin
                   ws.send "!!ver:1.6"
