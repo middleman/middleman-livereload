@@ -58,9 +58,9 @@ module Middleman
 
           reload_path = "#{Dir.pwd}/#{file}"
 
-          file_url = sitemap.file_to_path(file)
+          file_url = app.sitemap.file_to_path(file)
           if file_url
-            file_resource = sitemap.find_resource_by_path(file_url)
+            file_resource = app.sitemap.find_resource_by_path(file_url)
             if file_resource
               reload_path = file_resource.url
             end
