@@ -47,20 +47,20 @@ module Middleman
         end
 
         ignored = lambda do |file|
-          return true if files.respond_to?(:ignored?) && files.send(:ignored?, file)
+          return true if app.files.respond_to?(:ignored?) && app.files.send(:ignored?, file)
           ignore.any? { |i| file.to_s.match(i) }
         end
 
-        files.changed do |file|
+        app.files.changed do |file|
           next if ignored.call(file)
 
           logger.debug "LiveReload: File changed - #{file}"
 
           reload_path = "#{Dir.pwd}/#{file}"
 
-          file_url = sitemap.file_to_path(file)
+          file_url = app.sitemap.file_to_path(file)
           if file_url
-            file_resource = sitemap.find_resource_by_path(file_url)
+            file_resource = app.sitemap.find_resource_by_path(file_url)
             if file_resource
               reload_path = file_resource.url
             end
@@ -76,7 +76,7 @@ module Middleman
           @reactor.reload_browser(reload_path)
         end
 
-        files.deleted do |file|
+        app.files.deleted do |file|
           next if ignored.call(file)
 
           logger.debug "LiveReload: File deleted - #{file}"
@@ -86,7 +86,7 @@ module Middleman
 
         # Use the vendored livereload.js source rather than trying to get it from Middleman
         # https://github.com/johnbintz/rack-livereload#which-livereload-script-does-it-use
-        use ::Rack::LiveReload, port: js_port, host: js_host, no_swf: no_swf, source: :vendored, ignore: ignore
+        app.use ::Rack::LiveReload, port: js_port, host: js_host, no_swf: no_swf, source: :vendored, ignore: ignore
       end
     end
   end
