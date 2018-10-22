@@ -72,7 +72,7 @@ example if you're using `middleman server --https` in development.
 
 ## Community
 
-The official community forum is available at: http://forum.middlemanapp.com
+The official community forum is available at: https://forum.middlemanapp.com
 
 ## Bug Reports
 
@@ -95,9 +95,9 @@ The best way to get quick responses to your issues and swift fixes to your bugs 
 
 Copyright (c) 2010-2013 Thomas Reynolds. MIT Licensed, see [LICENSE] for details.
 
-[middleman]: http://middlemanapp.com
+[middleman]: https://middlemanapp.com
 [gem]: https://rubygems.org/gems/middleman-livereload
-[travis]: http://travis-ci.org/middleman/middleman-livereload
+[travis]: https://travis-ci.org/middleman/middleman-livereload
 [gemnasium]: https://gemnasium.com/middleman/middleman-livereload
 [codeclimate]: https://codeclimate.com/github/middleman/middleman-livereload
 [LICENSE]: https://github.com/middleman/middleman-livereload/blob/master/LICENSE.md
