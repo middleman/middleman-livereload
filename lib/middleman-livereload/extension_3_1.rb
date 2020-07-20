@@ -25,8 +25,6 @@ module Middleman
         return unless app.environment == :development
       end
 
-      @reactor = nil
-
       port = options.port.to_i
       host = options.host
       js_port = options.js_port || port
@@ -40,11 +38,7 @@ module Middleman
       extension = self
 
       app.ready do
-        if @reactor
-          @reactor.app = self
-        else
-          @reactor = ::Middleman::LiveReload::Reactor.new(options_hash, self)
-        end
+        reactor = ::Middleman::LiveReload::Reactor.create(options_hash, self)
 
         ignored = lambda do |file|
           return true if app.files.respond_to?(:ignored?) && app.files.send(:ignored?, file)
@@ -73,7 +67,7 @@ module Middleman
             reload_path = livereload_css_target
           end
 
-          @reactor.reload_browser(reload_path)
+          reactor.reload_browser(reload_path)
         end
 
         app.files.deleted do |file|
@@ -81,7 +75,7 @@ module Middleman
 
           logger.debug "LiveReload: File deleted - #{file}"
 
-          @reactor.reload_browser("#{Dir.pwd}/#{file}")
+          reactor.reload_browser("#{Dir.pwd}/#{file}")
         end
 
         # Use the vendored livereload.js source rather than trying to get it from Middleman
