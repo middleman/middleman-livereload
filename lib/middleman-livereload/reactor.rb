@@ -7,6 +7,16 @@ module Middleman
     class Reactor
       attr_reader :thread, :web_sockets, :app
 
+      def self.create(options, app)
+        if @reactor
+          @reactor.app = app
+        else
+          @reactor = new(options, app)
+        end
+
+        @reactor
+      end
+
       def initialize(options, app)
         @app = app
         @web_sockets = []
