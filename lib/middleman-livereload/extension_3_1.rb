@@ -15,6 +15,8 @@ module Middleman
     option :livereload_css_pattern, Regexp.new('_.*\.css'), 'Regexp matching filenames that trigger live reloading target'
     option :wss_certificate, nil, 'Path to an X.509 certificate to use for the websocket server'
     option :wss_private_key, nil, 'Path to an RSA private key for the websocket certificate'
+    option :reload_all_at_once, false, 'Enable reload all at once. To improve performance, reload all at once even if multiple files are updated'
+    option :reload_all_at_once_threshold, 10, 'Threshold for the number of updates that will be reloaded all at once when exceeded'
 
     def initialize(app, options_hash={}, &block)
       super
@@ -32,8 +34,8 @@ module Middleman
       no_swf = options.no_swf
       ignore = options.ignore
       options_hash = options.to_h
-      livereload_css_target = options.livereload_css_target
-      livereload_css_pattern = options.livereload_css_pattern
+      reload_all_at_once = options.reload_all_at_once
+      reload_all_at_once_threshold = options.reload_all_at_once_threshold
 
       extension = self
 
@@ -45,29 +47,35 @@ module Middleman
           ignore.any? { |i| file.to_s.match(i) }
         end
 
-        app.files.changed do |file|
-          next if ignored.call(file)
+        if reload_all_at_once
+          app.files.on_change Middleman::Sources::OUTPUT_TYPES do |updated, _removed|
+            updated_files = updated.select{|f| !ignored.call(f[:relative_path]) }
+            num_updated = updated_files.size
+            next if num_updated == 0
 
-          logger.debug "LiveReload: File changed - #{file}"
+            if num_updated > reload_all_at_once_threshold
+              logger.info "LiveReload: #{num_updated} Files changed, reload once ..."
+              reactor.reload_browser("/")
+            else
+              updated_files.each do |file|
+                logger.debug "LiveReload: File changed - #{file}"
 
-          reload_path = "#{Dir.pwd}/#{file}"
+                reload_path = extension.get_reload_path(file)
 
-          file_url = app.sitemap.file_to_path(file)
-          if file_url
-            file_resource = app.sitemap.find_resource_by_path(file_url)
-            if file_resource
-              reload_path = file_resource.url
+                reactor.reload_browser(reload_path)
+              end
             end
           end
+        else
+          app.files.changed do |file|
+            next if ignored.call(file)
 
-          # handle imported partials
-          # load target file instead of triggering full page refresh
-          if livereload_css_pattern.match(file.to_s) and not livereload_css_target.nil?
-            logger.info("LiveReload: CSS import changed, reloading target")
-            reload_path = livereload_css_target
+            logger.debug "LiveReload: File changed - #{file}"
+
+            reload_path = extension.get_reload_path(file)
+
+            reactor.reload_browser(reload_path)
           end
-
-          reactor.reload_browser(reload_path)
         end
 
         app.files.deleted do |file|
@@ -82,6 +90,30 @@ module Middleman
         # https://github.com/johnbintz/rack-livereload#which-livereload-script-does-it-use
         app.use ::Rack::LiveReload, port: js_port, host: js_host, no_swf: no_swf, source: :vendored, ignore: ignore
       end
+    end
+
+    def get_reload_path(file)
+      livereload_css_target = options.livereload_css_target
+      livereload_css_pattern = options.livereload_css_pattern
+
+      reload_path = "#{Dir.pwd}/#{file}"
+
+      file_url = app.sitemap.file_to_path(file)
+      if file_url
+        file_resource = app.sitemap.find_resource_by_path(file_url)
+        if file_resource
+          reload_path = file_resource.url
+        end
+      end
+
+      # handle imported partials
+      # load target file instead of triggering full page refresh
+      if livereload_css_pattern.match(file.to_s) and not livereload_css_target.nil?
+        logger.info("LiveReload: CSS import changed, reloading target")
+        reload_path = livereload_css_target
+      end
+
+      reload_path
     end
   end
 end
