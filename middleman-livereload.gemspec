@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.required_ruby_version = '>= 1.9.3'
   s.add_dependency("middleman-core", [">= 3.3"])
-  s.add_runtime_dependency('rack-livereload', ['~> 0.3.16'])
+  s.add_runtime_dependency('rack-livereload', ['~> 0.6.1'])
   s.add_runtime_dependency('em-websocket', ['~> 0.5.1'])
 end
