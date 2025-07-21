@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "middleman", github: "middleman/middleman"
 
-# Specify your gem's dependencies in middleman-blog.gemspec
+# Specify your gem's dependencies gemspec
 gemspec
 
 # Build and doc tools

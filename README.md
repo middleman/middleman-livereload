@@ -15,7 +15,7 @@ gem install middleman
 middleman init MY_PROJECT
 ```
 
-If you already have a Middleman project, add the `gem "middleman-blog"` line to your `Gemfile` and then run `bundle install`.
+If you already have a Middleman project, add the `gem "middleman-livereload"` line to your `Gemfile` and then run `bundle install`.
 
 ## Configuration
 
