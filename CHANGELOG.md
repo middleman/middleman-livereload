@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.5.0
+
+* Upgade `rack-livereload` gem
+* Migrate to GitHub Actions
+* Match supported Ruby versions with MM ecosystem
+
 ## 3.4.7
 
 * Support secure sockets (WSS) with options for TLS certificate & private key
