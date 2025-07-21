@@ -1,6 +1,6 @@
 # Middleman-Livereload
 
-[![Gem Version](https://badge.fury.io/rb/middleman-livereload.svg)][gem]
+[![Gem Version](https://badge.fury.io/rb/middleman-livereload.svg)][https://rubygems.org/gems/middleman-livereload]
 [![CI](https://github.com/middleman/middleman-livereload/actions/workflows/ci.yml/badge.svg)](https://github.com/middleman/middleman-livereload/actions/workflows/ci.yml)
 [![Maintainability](https://qlty.sh/gh/middleman/projects/middleman-livereload/maintainability.svg)](https://qlty.sh/gh/middleman/projects/middleman-livereload)
 
@@ -29,40 +29,40 @@ The extension supports a number of options that can be given to the `activate` s
 activate :livereload, apply_js_live: false
 ```
 
-### `:host` and `:port`
+- `:host` and `:port`
 
 Livereload's listener host/port, these options get passed to ::Rack::LiveReload  middleware. Defaults:`'0.0.0.0'` and `'35729'`.
 
-### `:js_host` and `:js_port`
+- `:js_host` and `:js_port`
 
 Similar to the `:host` and `:port` options, but allow you to specify a different host and port at the frontend Javascript level than at the backend EventMachine level. Useful when running behind a proxy or on a Docker VM. Defaults to `:host` and `:port`.
 
-### `:apply_js_live` and `:apply_css_live`
+- `:apply_js_live` and `:apply_css_live`
 
 Whether live reload should attempt to reload javascript / css 'in-place', without complete reload of the page. Both default to `true`.
 
 :warning: It does *not* work with `@import`'ed CSS files or `require`'d JS files (because of LiveReload not providing enough information regarding dependencies). On those kind of files, a full page reload will be triggered.
 
-### `:no_swf`
+- `:no_swf`
 
 Disable Flash polyfil for browsers that support native WebSockets.
 
-### `:ignore`
+- `:ignore`
 
 Array of patterns for paths that must be ignored. These files will not be injected with the LiveReload script.
 
 `String#match` is used for ignoring, so you can use any valid Ruby regular expression in this array.
 
-### `:livereload_css_target`
+- `:livereload_css_target`
 
 CSS file to reload when detecting @imported partial was modified. Default `stylesheets/all.css`).  
 To opt out set `livereload_css_target: nil`.
 
-### `:livereload_css_pattern`
+- `:livereload_css_pattern`
 
 Regexp matching filenames that should trigger reload of :livereload_css_target when changed. Default: `Regexp.new('_.*\.css')`.
 
-### `:wss_certificate` and `:wss_private_key`
+- `:wss_certificate` and `:wss_private_key`
 
 Support secure sockets (WSS) by passing TLS certificate & private key, for
 example if you're using `middleman server --https` in development.
