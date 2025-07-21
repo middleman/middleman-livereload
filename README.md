@@ -1,6 +1,6 @@
 # Middleman-Livereload
 
-[![Gem Version](https://badge.fury.io/rb/middleman-livereload.svg)][https://rubygems.org/gems/middleman-livereload]
+[![Gem Version](https://badge.fury.io/rb/middleman-livereload.svg)](https://rubygems.org/gems/middleman-livereload)
 [![CI](https://github.com/middleman/middleman-livereload/actions/workflows/ci.yml/badge.svg)](https://github.com/middleman/middleman-livereload/actions/workflows/ci.yml)
 [![Maintainability](https://qlty.sh/gh/middleman/projects/middleman-livereload/maintainability.svg)](https://qlty.sh/gh/middleman/projects/middleman-livereload)
 
